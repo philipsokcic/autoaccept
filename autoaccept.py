@@ -27,15 +27,17 @@ def selectChar():
                     print("Found the champion!")
                     pag.click(findChamp)
                     break
-        break
 
 def callPosition():
     chatLocation = pag.locateOnScreen('assets/chatBox.png', confidence=0.8)
     if chatLocation != None:
         time.sleep(0.1)
         pag.click(chatLocation)
-        position = "I'm " + sys.argv[2] + "!"
-        pag.typewrite(position)
+        for i in range(3):
+            position = "I'm " + sys.argv[2] + "!"
+            pag.typewrite(position)
+            time.sleep(0.1)
+            pag.press('enter')
 
 def main():
     while True:
@@ -47,21 +49,22 @@ def main():
             print(queuePop)
             pag.click(queuePop)
             print("Accepted the game!")
-            lockIn = pag.locateOnScreen('assets/lockIn.png', confidence=0.8) 
+            lockIn = pag.locateOnScreen('assets/editRunePage.png', confidence=0.8) 
             while True:
-                #This loops waits until it finds the lock-in, meaning we are in champion select
-                lockIn = pag.locateOnScreen('assets/lockIn.png', confidence=0.8)
+                print("Searching for lock in...")
+                #This loops waits until it finds the edit rune page, meaning we are in champion select
+                lockIn = pag.locateOnScreen('assets/editRunePage.png', confidence=0.8)
                 if lockIn != None:
                     print("Breaking out of main loop, entered champion select.")
                     break
             break
-    #if an additional argument is added with champion name we call selectChar function
     arguments = len(sys.argv)
-    if(arguments > 1):
-        selectChar()
     #if a second argument is added with position we add callPosition 
     if(arguments > 2):
         callPosition()    
+    #if an additional argument is added with champion name we call selectChar function
+    if(arguments > 1):
+        selectChar()
 
 if __name__=="__main__":
     main()
