@@ -2,16 +2,18 @@ import pyautogui as pag
 import sys
 import time
 
+
+
 def selectChar():
     while True:
         print("Waiting for champ select...") 
-        inQueue = pag.locateOnScreen('assets/inQueue.png', confidence=0.8)
+        inQueue = pag.locateOnScreen('assets/inQueue.png', confidence=0.7)
         if inQueue != None:
             #If the queue is still visible, hop back to main, game got dodged
             main()
         else:
             #If the queue is no longer visible we are in champion select
-            select = pag.locateOnScreen('assets/champSearch.png', confidence=0.8)
+            select = pag.locateOnScreen('assets/champSearch.png', 0.7)
             if select != None:
                 #Find the search bar to search for the champion
                 print("Finding champion...")
@@ -20,7 +22,8 @@ def selectChar():
                 time.sleep(0.2)
                 #After writing the champion we search for the portrait
                 champion = "assets/" + sys.argv[1].capitalize() + ".png"
-                findChamp = pag.locateOnScreen(champion, confidence=0.8)
+                #I could click on a static place here however it wouldnt work on all screens
+                findChamp = pag.locateOnScreen(champion, confidence=0.7)
                 if(findChamp != None):
                     #If the champion was located we click it after a short amount of time for consistency
                     time.sleep(0.2)
@@ -29,7 +32,10 @@ def selectChar():
                     break
 
 def callPosition():
-    chatLocation = pag.locateOnScreen('assets/chatBox.png', confidence=0.8)
+    #Finds chat box, when found it clicks and says position three times.
+    #Three times because sometimes when entering champion select the first message
+    #arrives faster than the client can handle and it doesnt register for others
+    chatLocation = pag.locateOnScreen('assets/chatBox.png', confidence=0.7)
     if chatLocation != None:
         time.sleep(0.1)
         pag.click(chatLocation)
@@ -42,16 +48,15 @@ def callPosition():
 def main():
     while True:
         print("Waiting for queue pop...") #While loop that continually looks for the accept button
-        queuePop = pag.locateOnScreen('assets/accept.png', confidence=0.8)
+        queuePop = pag.locateOnScreen('assets/accept.png', confidence=0.7)
         if queuePop != None: #If the accept button is found, sleep for a short while and then click, otherwise its too quick to register
             print("Found the accept button!")
             time.sleep(0.2)
-            print(queuePop)
             pag.click(queuePop)
             print("Accepted the game!")
             lockIn = pag.locateOnScreen('assets/editRunePage.png', confidence=0.8) 
             while True:
-                print("Searching for lock in...")
+                print("Searching for champion select...")
                 #This loops waits until it finds the edit rune page, meaning we are in champion select
                 lockIn = pag.locateOnScreen('assets/editRunePage.png', confidence=0.8)
                 if lockIn != None:
