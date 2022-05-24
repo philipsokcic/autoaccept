@@ -13,7 +13,8 @@ def selectChar():
             main()
         else:
             #If the queue is no longer visible we are in champion select
-            select = pag.locateOnScreen('assets/champSearch.png', 0.7)
+            print("Finding champion search...")
+            select = pag.locateOnScreen('assets/champSearch.png', confidence=0.7)
             if select != None:
                 #Find the search bar to search for the champion
                 print("Finding champion...")
