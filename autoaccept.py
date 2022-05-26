@@ -24,7 +24,7 @@ def selectChar():
                 #After writing the champion we search for the portrait
                 champion = "assets/" + sys.argv[1].capitalize() + ".png"
                 #I could click on a static place here however it wouldnt work on all screens
-                findChamp = pag.locateOnScreen(champion, confidence=0.7)
+                findChamp = pag.locateOnScreen(champion, confidence=0.6)
                 if(findChamp != None):
                     #If the champion was located we click it after a short amount of time for consistency
                     time.sleep(0.2)
@@ -60,6 +60,8 @@ def main():
                 print("Searching for champion select...")
                 #This loops waits until it finds the edit rune page, meaning we are in champion select
                 lockIn = pag.locateOnScreen('assets/editRunePage.png', confidence=0.8)
+                #TODO: Add additional for this if statement, if the accept just gets declined prior to entering
+                #it doesnt return to main loop
                 if lockIn != None:
                     print("Breaking out of main loop, entered champion select.")
                     break
